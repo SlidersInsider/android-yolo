@@ -22,6 +22,7 @@ import android.graphics.BitmapFactory;
 import android.graphics.Matrix;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.SystemClock;
 import android.provider.MediaStore;
 import android.util.Log;
 import android.view.View;
@@ -47,7 +48,9 @@ import java.util.List;
 
 public class MainActivity extends AppCompatActivity implements Runnable {
     private int mImageIndex = 0;
-    private String[] mTestImages = {"test1.png", "test2.jpg", "test3.png"};
+    private String[] mTestImages = {"a16.jpg", "a17.jpg", "a18.png", "a19.jpg","a20.png","a21.jpg",
+            "b19.jpg","b20.jpg","b21.jpg","b22.jpg","b23.png", "b24.jpg", "b25.jpg", "c18.jpg", "c19.jpg",
+            "c20.jpg", "c21.jpg", "c23.jpg", "m10.jpg", "m11.jpg", "m12.jpg", "m13.jpg"};
 
     private ImageView mImageView;
     private ResultView mResultView;
@@ -103,7 +106,7 @@ public class MainActivity extends AppCompatActivity implements Runnable {
         mResultView.setVisibility(View.INVISIBLE);
 
         final Button buttonTest = findViewById(R.id.testButton);
-        buttonTest.setText(("Test Image 1/3"));
+        buttonTest.setText(String.format("Text Image %d/%d", mImageIndex + 1, mTestImages.length));
         buttonTest.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 mResultView.setVisibility(View.INVISIBLE);
@@ -181,7 +184,7 @@ public class MainActivity extends AppCompatActivity implements Runnable {
         });
 
         try {
-            mModule = LiteModuleLoader.load(MainActivity.assetFilePath(getApplicationContext(), "yolov5s.torchscript.ptl"));
+            mModule = LiteModuleLoader.load(MainActivity.assetFilePath(getApplicationContext(), "best.torchscript"));
             BufferedReader br = new BufferedReader(new InputStreamReader(getAssets().open("classes.txt")));
             String line;
             List<String> classes = new ArrayList<>();
@@ -237,6 +240,7 @@ public class MainActivity extends AppCompatActivity implements Runnable {
 
     @Override
     public void run() {
+        long mLastAnalysisResultTime = SystemClock.elapsedRealtime();
         Bitmap resizedBitmap = Bitmap.createScaledBitmap(mBitmap, PrePostProcessor.mInputWidth, PrePostProcessor.mInputHeight, true);
         final Tensor inputTensor = TensorImageUtils.bitmapToFloat32Tensor(resizedBitmap, PrePostProcessor.NO_MEAN_RGB, PrePostProcessor.NO_STD_RGB);
         IValue[] outputTuple = mModule.forward(IValue.from(inputTensor)).toTuple();
@@ -244,6 +248,8 @@ public class MainActivity extends AppCompatActivity implements Runnable {
         final float[] outputs = outputTensor.getDataAsFloatArray();
         final ArrayList<Result> results =  PrePostProcessor.outputsToNMSPredictions(outputs, mImgScaleX, mImgScaleY, mIvScaleX, mIvScaleY, mStartX, mStartY);
 
+
+        Log.d("test-time",(SystemClock.elapsedRealtime() -  mLastAnalysisResultTime)/1000.0f + "");
         runOnUiThread(() -> {
             mButtonDetect.setEnabled(true);
             mButtonDetect.setText(getString(R.string.detect));
