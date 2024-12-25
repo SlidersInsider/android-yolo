@@ -1,0 +1,8 @@
+path: 'dataset/'
+train: 'images/train'
+val: 'images/val'
+
+names:
+  0: 'banknote'
+  1: 'coin'
+  2: 'card'
