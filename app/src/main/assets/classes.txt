@@ -1,3 +1,0 @@
-coin
-banknote
-bank card
