@@ -99,8 +99,8 @@ public class ObjectDetectionActivity extends AbstractCameraXActivity<ObjectDetec
         Bitmap resizedBitmap = Bitmap.createScaledBitmap(bitmap, PrePostProcessor.mInputWidth, PrePostProcessor.mInputHeight, true);
 
         final Tensor inputTensor = TensorImageUtils.bitmapToFloat32Tensor(resizedBitmap, PrePostProcessor.NO_MEAN_RGB, PrePostProcessor.NO_STD_RGB);
-        IValue[] outputTuple = mModule.forward(IValue.from(inputTensor)).toTuple();
-        final Tensor outputTensor = outputTuple[0].toTensor();
+        IValue outputTuple = mModule.forward(IValue.from(inputTensor));
+        final Tensor outputTensor = outputTuple.toTensor();
         final float[] outputs = outputTensor.getDataAsFloatArray();
 
         float imgScaleX = (float)bitmap.getWidth() / PrePostProcessor.mInputWidth;
