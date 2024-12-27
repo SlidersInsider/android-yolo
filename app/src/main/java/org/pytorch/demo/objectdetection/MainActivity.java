@@ -48,9 +48,11 @@ import java.util.List;
 
 public class MainActivity extends AppCompatActivity implements Runnable {
     private int mImageIndex = 0;
-    private String[] mTestImages = {"a16.jpg", "a17.jpg", "a18.png", "a19.jpg","a20.png","a21.jpg",
-            "b19.jpg","b20.jpg","b21.jpg","b22.jpg","b23.png", "b24.jpg", "b25.jpg", "c18.jpg", "c19.jpg",
-            "c20.jpg", "c21.jpg", "c23.jpg", "m10.jpg", "m11.jpg", "m12.jpg", "m13.jpg"};
+    private String[] mTestImages = {"b9.jpg",  "b11.jpg", "b15.jpg", "b18.jpg", "b22.png", "b24.jpg", "b26.png",
+                                    "b29.jpg", "b33.jpg", "b39.jpg", "m5.jpg",  "m7.jpg",  "m14.jpg", "m18.jpg",
+                                    "m22.jpg", "m24.jpg", "m25.jpg", "m27.jpg", "m35.jpeg","m38.jpg", "c3.jpg",
+                                    "c6.jpg",  "c9.jpg", "c15.jpeg", "c16.jpg", "c20.jpg", "c22.jpg", "c28.jpg",
+                                    "c31.jpg", "c35.jpeg"};
 
     private ImageView mImageView;
     private ResultView mResultView;
