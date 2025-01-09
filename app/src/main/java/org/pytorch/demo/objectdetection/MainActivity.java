@@ -249,8 +249,7 @@ public class MainActivity extends AppCompatActivity implements Runnable {
         final Tensor outputTensor = outputTuple.toTensor();
         final float[] outputs = outputTensor.getDataAsFloatArray();
         final ArrayList<Result> results =  PrePostProcessor.outputsToNMSPredictions(outputs, mImgScaleX, mImgScaleY, mIvScaleX, mIvScaleY, mStartX, mStartY);
-
-
+        
         Log.d("test-time",(SystemClock.elapsedRealtime() -  mLastAnalysisResultTime)/1000.0f + "");
         runOnUiThread(() -> {
             mButtonDetect.setEnabled(true);
